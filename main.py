@@ -7,9 +7,9 @@ app.secret_key = os.urandom(24)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    if request.method == 'POST':
-        username = request.form['username']
-        password = request.form['password']
+    if request.method == 'GET' and 'username' in request.args:
+        username = request.args.get('username')
+        password = request.args.get('password')
         if models.loginUser(username, password):
             session['username'] = username
             return redirect('/dashboard')
@@ -24,4 +24,4 @@ def dashboard():
     return redirect('/login')
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=False, host='0.0.0.0', port=5000)
